@@ -1,41 +1,95 @@
-# Website
+# 🎉 DEMO Docusaurus Netlify
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+Netlify: A modern web development platform that streamlines the process from code to deployment. With built-in CI/CD, automated hosting, and serverless functionalities, it empowers developers to focus on building great websites and applications.
 
-### Installation
+![version](https://img.shields.io/badge/version-1.0-blue)
+![rating](https://img.shields.io/badge/rating-★★★★★-yellow)
+![uptime](https://img.shields.io/badge/uptime-100%25-brightgreen)
 
-```
-$ yarn
-```
+### 🚀 Setup
 
-### Local Development
-
-```
-$ yarn start
-```
-
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
-
-### Build
+- Create Start Project
 
 ```
-$ yarn build
+npx create-docusaurus@latest my-website classic
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-### Deployment
-
-Using SSH:
+- Make Directory `admin`
 
 ```
-$ USE_SSH=true yarn deploy
+cd static
+mkdir admin
 ```
 
-Not using SSH:
+- Create File in `admin`
 
 ```
-$ GIT_USER=<Your GitHub username> yarn deploy
+cd admin
+touch config.yml
+touch index.html
 ```
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+- Edit `index.html`
+
+```
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Content Manager</title>
+</head>
+<body>
+  <!-- Include the script that builds the page and powers Decap CMS -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+</body>
+</html>
+```
+
+- Edit `config.yml`
+
+```
+backend:
+  name: github
+  branch: main 
+  repo: <your-github>/my-website
+
+# These lines should *not* be indented
+media_folder: "static/img" # Media files will be stored in the repo under static/images/uploads
+public_folder: "/img/" # The src attribute for uploaded media will begin with /images/uploads
+
+collections:
+- name: blog
+  label: "blog"
+  folder: blog
+  identifier_field: title
+  extension: md
+  widget: "list"
+  create: true
+  slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
+  fields:
+    - { name: title, label: Title, widget: string }
+    - { name: body, label: Body, widget: markdown }
+    - { name: slug, label: Slug, widget: string }
+    - label: "Tags"
+      name: "tags"
+      widget: "list"
+    - label: "Authors"
+      name: "authors" 
+      widget: "list"
+      fields:
+        - { name: name, label: Name, widget: string }
+        - { name: title, label: Title, widget: string } 
+        - { name: url, label: URL, widget: string } 
+        - { name: imageUrl, label: ImageURL, widget: string } 
+```
+
+### 🔑 Configuration
+
+- [New OAuth App in Github](https://github.com/settings/developers)
+- [Install OAuth Provider in Netlify](https://app.netlify.com/)
+
+### 🏆 Run
+
+- [https://dainty-flan-38b69b.netlify.app/](https://dainty-flan-38b69b.netlify.app/)
+- [https://dainty-flan-38b69b.netlify.app/admin](https://dainty-flan-38b69b.netlify.app/admin)
